@@ -1,22 +1,24 @@
 {
-    "python.defaultInterpreterPath": ".venv/bin/python",
-    "python.analysis.autoSearchPaths": true,
-    "python.analysis.useLibraryCodeForTypes": true,
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-        "source.fixAll": true,
-        "source.fixAll.ruff": true
+        "source.fixAll": true
     },
     "[python]": {
         "editor.codeActionsOnSave": {
             "source.organizeImports": true
         }
     },
-    "ruff.lint.run": "onSave",
-    "ruff.format.args": [
-        "--line-length=88"
+    "ruff.lineLength": 88,
+    "ruff.lint.select": [
+        "E",
+        "F",
+        "I"
     ],
-    "mypy-type-checker.args": [
-        "--strict"
+    "ruff.lint.ignore": [
+        "F401"
+    ],
+    "isort.args": [
+        "--profile",
+        "black"
     ]
 }
