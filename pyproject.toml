@@ -1,0 +1,36 @@
+[project]
+name = "pcp"
+version = "0.1.0"
+description = "Pro-Cycling-Predictor"
+authors = [
+    {name = "Goof Blokker",email = "goofb@live.nl"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+]
+
+[tool.poetry]
+packages = [{include = "pcp", from = "src"}]
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.11.2"
+mypy = "^1.15.0"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]  # Enable basic linting rules (E: pycodestyle, F: Pyflakes, I: isort)
+ignore = ["E501"]  # Ignore line length violations if needed
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+ignore_missing_imports = true
