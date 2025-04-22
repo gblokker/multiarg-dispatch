@@ -1,7 +1,7 @@
 [project]
-name = "pcp"
+name = "multidispatch"
 version = "0.1.0"
-description = "Pro-Cycling-Predictor"
+description = "A replacement function for single dispatch, which allows for multiple dispatch."
 authors = [
     {name = "Goof Blokker",email = "goofb@live.nl"}
 ]
