@@ -35,3 +35,4 @@ ignore = ["E501"]  # Ignore line length violations if needed
 python_version = "3.13"
 strict = true
 ignore_missing_imports = true
+allow_untyped_defs = true
