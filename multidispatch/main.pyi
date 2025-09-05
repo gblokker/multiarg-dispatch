@@ -1,0 +1,16 @@
+# multidispatch.pyi
+from typing import Any, Callable, Mapping, Tuple, TypeVar, Union
+
+T = TypeVar("T")
+R = TypeVar("R")
+
+class DispatchWarning(Warning): ...
+
+def multidispatch(func: Callable[..., R]) -> "MultidispatchWrapper[R]": ...
+
+class MultidispatchWrapper(Callable[..., R]):
+    registry: Mapping[Tuple[type, ...], Callable[..., R]]
+
+    def __call__(self, *args: Any, **kwargs: Any) -> R: ...
+    def register(self, func: Callable[..., R]) -> Callable[..., R]: ...
+    def dispatch(self, cls: Tuple[type, ...]) -> Callable[..., R]: ...
