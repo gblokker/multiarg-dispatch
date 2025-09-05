@@ -6,7 +6,7 @@ import warnings
 
 import pytest
 
-from multidispatch import DispatchWarning, multidispatch
+from multiarg_dispatch import DispatchWarning, multidispatch
 
 
 # -------------------

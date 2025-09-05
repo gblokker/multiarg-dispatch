@@ -1,35 +1,23 @@
 [project]
-name = "multidispatch"
+name = "multiarg-dispatch"
 version = "0.1.0"
-description = "A replacement function for single dispatch, which allows for dispatching based on type hints for all arguments."
-authors = [
-    {name = "Goof Blokker",email = "goofb@live.nl"}
-]
+description = "A replacement function for single dispatch that allows dispatching based on type hints for all arguments."
 readme = "README.md"
 requires-python = ">=3.13"
-dependencies = [
+authors = [
+    {name = "Goof Blokker", email = "goofb@live.nl"}
 ]
-
-[tool.poetry]
-packages = [{include = "pcp", from = "src"}]
-
-
-[tool.poetry.group.dev.dependencies]
-ruff = "^0.11.2"
-mypy = "^1.15.0"
-pytest = "^8.4.2"
+dependencies = []
 
 [build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools>=68.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [tool.ruff]
 line-length = 88
 target-version = "py313"
-
-[tool.ruff.lint]
-select = ["E", "F", "I"]  # Enable basic linting rules (E: pycodestyle, F: Pyflakes, I: isort)
-ignore = ["E501"]  # Ignore line length violations if needed
+select = ["E", "F", "I"]
+ignore = ["E501"]
 
 [tool.mypy]
 python_version = "3.13"
