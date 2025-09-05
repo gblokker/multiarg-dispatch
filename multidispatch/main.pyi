@@ -1,5 +1,5 @@
 # multidispatch.pyi
-from typing import Any, Callable, Mapping, Tuple, TypeVar, Union
+from typing import Any, Callable, Mapping, Protocol, Tuple, TypeVar
 
 T = TypeVar("T")
 R = TypeVar("R")
@@ -8,7 +8,7 @@ class DispatchWarning(Warning): ...
 
 def multidispatch(func: Callable[..., R]) -> "MultidispatchWrapper[R]": ...
 
-class MultidispatchWrapper(Callable[..., R]):
+class MultidispatchWrapper(Protocol[R]):
     registry: Mapping[Tuple[type, ...], Callable[..., R]]
 
     def __call__(self, *args: Any, **kwargs: Any) -> R: ...
