@@ -130,3 +130,60 @@ def test_union_type_dispatch():
     assert f(10) == "number"
     assert f(3.14) == "number"
     assert f("str") == "default"
+
+
+# -------------------
+# Garbage collection test
+# -------------------
+def test_registered_class_garbage_collection():
+    """Test that registered classes are kept alive by the registry and can be collected when the function is deleted."""
+    import gc
+    import weakref
+
+    @multidispatch
+    def process(obj):
+        return "default"
+
+    # Create a dynamic class to register
+    DynamicAnimal = type("DynamicAnimal", (), {})
+
+    # Create a weak reference to track if it gets collected
+    weak_ref = weakref.ref(DynamicAnimal)
+
+    # Register using __annotations__ directly to avoid string resolution issues
+    def _impl(obj):
+        return "dynamic_animal"
+
+    _impl.__annotations__ = {"obj": DynamicAnimal, "return": str}
+    process.register(_impl)
+
+    # Verify the class works
+    instance = DynamicAnimal()
+    result = process(instance)
+    assert result == "dynamic_animal"
+    del instance
+
+    # At this point, DynamicAnimal should still be alive because it's in the registry
+    gc.collect()
+    assert weak_ref() is not None, (
+        "DynamicAnimal should still be alive (kept by registry)"
+    )
+
+    # Delete the local reference to DynamicAnimal
+    del DynamicAnimal
+    gc.collect()
+
+    # Still should be alive because the registry holds a reference
+    assert weak_ref() is not None, (
+        "DynamicAnimal should still be alive (kept by registry)"
+    )
+
+    # Now delete the process function (which holds the registry) and the implementation
+    del _impl
+    del process
+    gc.collect()
+
+    # Now the class should be garbage collected
+    assert weak_ref() is None, (
+        "DynamicAnimal should be garbage collected after process function is deleted"
+    )
