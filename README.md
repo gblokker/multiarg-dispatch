@@ -9,22 +9,12 @@
 - Raises a warning if arguments have default values (since defaults are not considered during dispatch).
 - Type checking enforced at registration: all parameters must have type hints.
 - Fully compatible with Python 3.13+.
+- **Note** that the registry uses strong references, so for garbage collection do not forget to delete the function that uses multidispatch.
+- **Note** that local classes cannot be used as type hints, since the it is not accessible globally to retrieve as type hint.
 
 ## Installation
 
-Install via Poetry (or include in your project):
-
-```bash
-poetry add multiarg-dispatch
-````
-
-Or via pip:
-
-```bash
-pip install multiarg-dispatch
-```
-
-Or clone and install manually:
+Clone and install manually:
 
 ```bash
 git clone <repo-url>
@@ -90,3 +80,8 @@ Please follow [PEP 8](https://www.python.org/dev/peps/pep-0008/) style guideline
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
+## TODO:
+
+- Add pipeline (QA/Tests/Publish).
+- Publish as package.
+- Test for older python versions.
