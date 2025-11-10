@@ -24,13 +24,17 @@ def _is_valid_dispatch_type(cls):
 def _find_impl(arg_types: tuple, registry):
     """Find the best matching implementation for a given set of argument types."""
     for registered_types, func in registry.items():
+        # Skip the default implementation
         if registered_types is object:
             continue
         match = True
+        # Check each argument type against the registered types
         for arg, reg in zip(arg_types, registered_types):
+            # Handle Union types in the registry
             if _is_union_type(reg):
                 if not any(issubclass(arg, r) for r in get_args(reg)):
                     match = False
+            # Handle regular types
             if not issubclass(arg, reg):
                 match = False
         if match:
@@ -48,6 +52,7 @@ def multidispatch(func):
     generic function.
     """
     registry = {}
+    # Save default number of arguments for validation during registration
     n_arguments = len(inspect.signature(func).parameters)
 
     def dispatch(cls):
@@ -68,14 +73,17 @@ def multidispatch(func):
         Registers a new implementation for the given *cls* on a *generic_func*.
         """
 
+        # Extract type hints
         type_hints = get_type_hints(func)
         arg_type_hints = {k: v for k, v in type_hints.items() if k != "return"}
+        # Validate type hints to make sure all arguments are annotated
         sig = inspect.signature(func)
         if len(arg_type_hints) != len(sig.parameters):
             raise TypeError(
                 f"All arguments must be type-annotated for {funcname!r}. "
                 f"Got {len(arg_type_hints)} annotations for {len(sig.parameters)} parameters."
             )
+        # Warn if any parameters have default values
         for name, param in sig.parameters.items():
             if param.default is not inspect._empty:
                 warnings.warn(
@@ -83,6 +91,7 @@ def multidispatch(func):
                     f"Note that default values are not considered in dispatching when calling the function.",
                     category=DispatchWarning,
                 )
+        # Validate that all type hints are valid dispatch types
         for argname, cls in arg_type_hints.items():
             if not _is_valid_dispatch_type(cls):
                 if _is_union_type(cls):
