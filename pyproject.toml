@@ -3,7 +3,7 @@ name = "multiarg-dispatch"
 version = "0.1.0"
 description = "A replacement function for single dispatch that allows dispatching based on type hints for all arguments."
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.11"
 authors = [
     {name = "Goof Blokker", email = "goofb@live.nl"}
 ]
