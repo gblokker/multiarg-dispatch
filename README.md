@@ -82,6 +82,5 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## TODO:
 
-- Add pipeline (QA/Tests/Publish).
+- Add pipeline (Publish).
 - Publish as package.
-- Test for older python versions.
