@@ -6,6 +6,8 @@ from .exceptions import (
 )
 from .main import DispatchWarning, multidispatch
 
+__version__ = "0.1.0"
+
 __all__ = [
     "multidispatch",
     "DispatchWarning",

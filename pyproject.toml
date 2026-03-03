@@ -4,14 +4,33 @@ version = "0.1.0"
 description = "A replacement function for single dispatch that allows dispatching based on type hints for all arguments."
 readme = "README.md"
 requires-python = ">=3.11"
+license = {text = "MIT"}
+keywords = ["dispatch", "multidispatch", "type hints", "generic functions", "functools"]
 authors = [
     {name = "Goof Blokker", email = "goofb@live.nl"}
 ]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
 dependencies = []
 
+[project.urls]
+Homepage = "https://github.com/gblokker/multiarg-dispatch"
+Repository = "https://github.com/gblokker/multiarg-dispatch"
+Issues = "https://github.com/gblokker/multiarg-dispatch/issues"
+
 [build-system]
-requires = ["setuptools>=68.0.0", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.ruff]
 line-length = 88

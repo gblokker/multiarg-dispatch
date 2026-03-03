@@ -14,12 +14,16 @@
 
 ## Installation
 
-Clone and install manually:
+Install from PyPI:
 
 ```bash
-git clone "https://github.com/gblokker/multiarg-dispatch"
-cd multiarg-dispatch
-uv sync
+pip install multiarg-dispatch
+```
+
+Or with uv:
+
+```bash
+uv add multiarg-dispatch
 ```
 
 ## Usage
@@ -79,10 +83,3 @@ Please follow [PEP 8](https://www.python.org/dev/peps/pep-0008/) style guideline
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## TODO:
-
-- Add pipeline (Publish).
-- Publish as package.
-- Add support for subtypes such as `list[str]`
-- Add commitizen
