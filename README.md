@@ -8,7 +8,7 @@
 - Supports **union types** in type hints.
 - Raises a warning if arguments have default values (since defaults are not considered during dispatch).
 - Type checking enforced at registration: all parameters must have type hints.
-- Fully compatible with Python 3.13+.
+- Fully compatible with Python >3.11.
 - **Note** that the registry uses strong references, so for garbage collection do not forget to delete the function that uses multidispatch.
 - **Note** that local classes cannot be used as type hints, since these are accessible globally to retrieve as type hint.
 
