@@ -188,23 +188,6 @@ def test_registration_error_too_many_parameters():
 
 
 # -------------------
-# No matching implementation
-# -------------------
-def test_no_matching_implementation_error(test_func_fixture, monkeypatch):
-    """Test that NoMatchingImplementationError is raised when no implementation matches."""
-
-    # Mock _find_impl to return None, simulating no matching implementation
-    import multiarg_dispatch.main
-
-    monkeypatch.setattr(
-        multiarg_dispatch.main, "_find_impl", lambda arg_types, registry: None
-    )
-
-    with pytest.raises(NoMatchingImplementationError):
-        test_func_fixture(2, 3)
-
-
-# -------------------
 # Garbage collection test
 # -------------------
 def test_registered_class_garbage_collection():

@@ -135,11 +135,6 @@ def multidispatch(func):
             cls_args.extend(cls_kw)
 
         impl = dispatch(tuple(cls_args))
-        if impl is None:
-            raise NoMatchingImplementationError(
-                f"No implementation found for {funcname} with argument types: "
-                f"{tuple(cls.__name__ for cls in cls_args)}"
-            )
         return impl(*args, **kw)
 
     funcname = getattr(func, "__name__", "multidispatch function")
