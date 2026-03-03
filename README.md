@@ -17,9 +17,9 @@
 Clone and install manually:
 
 ```bash
-git clone <repo-url>
+git clone "https://github.com/gblokker/multiarg-dispatch"
 cd multiarg-dispatch
-poetry install
+uv sync
 ```
 
 ## Usage
