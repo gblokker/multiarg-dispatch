@@ -9,7 +9,6 @@ from typing import Union, get_args, get_origin, get_type_hints
 from .exceptions import (
     InvalidTypeAnnotationError,
     MissingTypeAnnotationError,
-    NoMatchingImplementationError,
     RegistrationError,
 )
 
