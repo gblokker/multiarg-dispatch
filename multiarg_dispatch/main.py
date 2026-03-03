@@ -6,6 +6,12 @@ import warnings
 from functools import update_wrapper
 from typing import Union, get_args, get_origin, get_type_hints
 
+from .exceptions import (
+    InvalidTypeAnnotationError,
+    MissingTypeAnnotationError,
+    RegistrationError,
+)
+
 
 class DispatchWarning(UserWarning):
     """Warning raised when dispatching might be affected by defaults."""
@@ -79,35 +85,37 @@ def multidispatch(func):
         # Validate type hints to make sure all arguments are annotated
         sig = inspect.signature(func)
         if len(arg_type_hints) != len(sig.parameters):
-            raise TypeError(
+            raise MissingTypeAnnotationError(
                 f"All arguments must be type-annotated for {funcname!r}. "
-                f"Got {len(arg_type_hints)} annotations for {len(sig.parameters)} parameters."
+                f"Got {len(arg_type_hints)} annotations for "
+                f"{len(sig.parameters)} parameters."
             )
         # Warn if any parameters have default values
         for name, param in sig.parameters.items():
             if param.default is not inspect._empty:
                 warnings.warn(
                     f"Parameter '{name}' has a default value ({param.default}).\n "
-                    f"Note that default values are not considered in dispatching when calling the function.",
+                    f"Note that default values are not considered in dispatching "
+                    f"when calling the function.",
                     category=DispatchWarning,
                 )
         # Validate that all type hints are valid dispatch types
         for argname, cls in arg_type_hints.items():
             if not _is_valid_dispatch_type(cls):
                 if _is_union_type(cls):
-                    raise TypeError(
+                    raise InvalidTypeAnnotationError(
                         f"Invalid annotation for {argname!r}. "
                         f"{cls!r} not all arguments are classes."
                     )
                 else:
-                    raise TypeError(
+                    raise InvalidTypeAnnotationError(
                         f"Invalid annotation for {argname!r}. {cls!r} is not a class."
                     )
 
         clss = [cls for _, cls in arg_type_hints.items()]
 
         if n_arguments != len(clss):
-            raise TypeError(
+            raise RegistrationError(
                 f"Cannot register {func!r} for types {clss}. "
                 f"Expected {n_arguments} types."
             )
@@ -125,7 +133,8 @@ def multidispatch(func):
             cls_kw = [type(value) for value in kw.values()]
             cls_args.extend(cls_kw)
 
-        return dispatch(tuple(cls_args))(*args, **kw)
+        impl = dispatch(tuple(cls_args))
+        return impl(*args, **kw)
 
     funcname = getattr(func, "__name__", "multidispatch function")
     registry[object] = func

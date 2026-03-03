@@ -6,7 +6,13 @@ import warnings
 
 import pytest
 
-from multiarg_dispatch import DispatchWarning, multidispatch
+from multiarg_dispatch import (
+    DispatchWarning,
+    InvalidTypeAnnotationError,
+    MissingTypeAnnotationError,
+    RegistrationError,
+    multidispatch,
+)
 
 
 # -------------------
@@ -78,6 +84,23 @@ def test_keyword_arguments_dispatch(test_func_fixture):
 
 
 # -------------------
+# Union type dispatch
+# -------------------
+def test_union_type_dispatch():
+    @multidispatch
+    def f(x):
+        return "default"
+
+    @f.register
+    def _(x: int | float) -> str:
+        return "number"
+
+    assert f(10) == "number"
+    assert f(3.14) == "number"
+    assert f("str") == "default"
+
+
+# -------------------
 # Default parameter warning
 # -------------------
 def test_default_parameter_warning():
@@ -100,7 +123,7 @@ def test_default_parameter_warning():
 # Missing type hints
 # -------------------
 def test_missing_type_hints_error(test_func_fixture):
-    with pytest.raises(TypeError):
+    with pytest.raises(MissingTypeAnnotationError):
 
         @test_func_fixture.register
         def _(x, y):  # no type hints
@@ -116,20 +139,51 @@ def test_empty_call_raises_typeerror(test_func_fixture):
 
 
 # -------------------
-# Union type dispatch
+# Invalid type annotation
 # -------------------
-def test_union_type_dispatch():
+def test_invalid_type_annotation_non_class():
+    """Test that InvalidTypeAnnotationError is raised for non-class annotations."""
+
     @multidispatch
     def f(x):
         return "default"
 
-    @f.register
-    def _(x: int | float) -> str:
-        return "number"
+    with pytest.raises(InvalidTypeAnnotationError):
 
-    assert f(10) == "number"
-    assert f(3.14) == "number"
-    assert f("str") == "default"
+        @f.register
+        def _(x: list[str]) -> str:
+            return "invalid"
+
+
+# -------------------
+# Registration error
+# -------------------
+def test_registration_error_wrong_number_of_parameters():
+    """Test that RegistrationError is raised when registering with wrong number of parameters."""
+
+    @multidispatch
+    def f(x, y):
+        return "default"
+
+    with pytest.raises(RegistrationError):
+
+        @f.register
+        def _(x: int) -> str:  # Only 1 parameter, but f expects 2
+            return "invalid"
+
+
+def test_registration_error_too_many_parameters():
+    """Test that RegistrationError is raised when registering with too many parameters."""
+
+    @multidispatch
+    def f(x):
+        return "default"
+
+    with pytest.raises(RegistrationError):
+
+        @f.register
+        def _(x: int, y: str) -> str:  # 2 parameters, but f expects 1
+            return "invalid"
 
 
 # -------------------
