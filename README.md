@@ -85,3 +85,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 - Add pipeline (Publish).
 - Publish as package.
 - Add support for subtypes such as `list[str]`
+- Add commitizen
