@@ -32,9 +32,3 @@ class RegistrationError(MultiArgDispatchError, TypeError):
     """
 
     pass
-
-
-class NoMatchingImplementationError(MultiArgDispatchError, TypeError):
-    """Raised when no matching implementation is found for given argument types."""
-
-    pass

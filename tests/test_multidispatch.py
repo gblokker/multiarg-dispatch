@@ -10,7 +10,6 @@ from multiarg_dispatch import (
     DispatchWarning,
     InvalidTypeAnnotationError,
     MissingTypeAnnotationError,
-    NoMatchingImplementationError,
     RegistrationError,
     multidispatch,
 )
